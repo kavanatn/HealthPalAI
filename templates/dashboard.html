@@ -1,0 +1,253 @@
+{% extends "base.html" %} {% block title %}Dashboard - HealthPal{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>
+      Welcome back, {{ current_user.username if current_user.is_authenticated
+      else 'User' }}!
+    </h1>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
+  <div class="alert alert-{{ category }} fade-out">{{ message }}</div>
+  {% endfor %} {% endif %} {% endwith %} {% if not has_health_records %}
+  <div class="no-data-message">
+    <i class="fas fa-clipboard-list"></i>
+    <h3>No health data available</h3>
+    <p>Complete a health questionnaire to see your personalized dashboard.</p>
+    <a href="/questionnaire" class="action-button">Take Health Questionnaire</a>
+  </div>
+  {% else %}
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <h3>Overall Health Score</h3>
+      <div class="score" id="healthScore">{{ health_score }}</div>
+      <div class="chart-container">
+        <canvas id="healthChart"></canvas>
+      </div>
+    </div>
+    <div class="metric-card">
+      <h3>Activity Tracking</h3>
+      <div class="score" id="activityScore">{{ activity_score }}</div>
+      <div class="chart-container">
+        <canvas id="activityChart"></canvas>
+      </div>
+    </div>
+    <div class="metric-card">
+      <h3>Mood Tracking</h3>
+      <div class="score" id="moodScore">{{ mood_score }}</div>
+      <div class="chart-container">
+        <canvas id="moodChart"></canvas>
+      </div>
+    </div>
+    <div class="metric-card">
+      <h3>Weight Changes</h3>
+      <div class="chart-container">
+        <canvas id="weightChart"></canvas>
+      </div>
+    </div>
+    <div class="metric-card">
+      <h3>Sleep Hours</h3>
+      <div class="chart-container">
+        <canvas id="sleepChart"></canvas>
+      </div>
+    </div>
+    <div class="metric-card summary">
+      <h3>Health Summary</h3>
+      <div class="metric">
+        <span>Activity Score</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ activity_score }}%">
+            {{ activity_score }}/100
+          </div>
+        </div>
+      </div>
+      <div class="metric">
+        <span>Sleep Quality</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ sleep_score }}%">
+            {{ sleep_score }}/100
+          </div>
+        </div>
+      </div>
+      <div class="metric">
+        <span>Mood Score</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ mood_score }}%">
+            {{ mood_score }}/100
+          </div>
+        </div>
+      </div>
+      <div class="metric">
+        <span>BMI</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ bmi_percentage }}%">
+            {{ bmi }}
+          </div>
+        </div>
+      </div>
+      <div class="last-updated">Last updated: {{ last_updated }}</div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<style>
+  .dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .chart-container {
+    height: 300px;
+    position: relative;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .alert {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    animation: fadeOut 5s forwards;
+  }
+
+  .alert-success {
+    background: rgba(40, 167, 69, 0.1);
+    border-left: 4px solid #28a745;
+    color: #155724;
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding: 1rem;
+    }
+
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .chart-container {
+      height: 250px;
+    }
+  }
+</style>
+
+{% endblock %} {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+      {% if has_health_records %}
+      const createChart = (ctx, label, data, color) => {
+          new Chart(ctx, {
+              type: "line",
+              data: {
+                  labels: {{ date_labels|tojson }},
+                  datasets: [{
+                      label,
+                      data,
+                      borderColor: color,
+                      fill: false,
+                      tension: 0.1
+                  }],
+              },
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                      y: {
+                          beginAtZero: false
+                      }
+                  }
+              },
+          });
+      };
+
+      // Create charts
+      createChart(
+          document.getElementById("healthChart"),
+          "Health Score",
+          {{ health_data|tojson }},
+          "#2b6aa6"
+      );
+      createChart(
+          document.getElementById("activityChart"),
+          "Activity",
+          {{ activity_data|tojson }},
+          "#367ab9"
+      );
+      createChart(
+          document.getElementById("moodChart"),
+          "Mood",
+          {{ mood_data|tojson }},
+          "#ff9800"
+      );
+      createChart(
+          document.getElementById("weightChart"),
+          "Weight (kg)",
+          {{ weight_data|tojson }},
+          "#f44336"
+      );
+      createChart(
+          document.getElementById("sleepChart"),
+          "Sleep Hours",
+          {{ sleep_data|tojson }},
+          "#4caf50"
+      );
+      {% endif %}
+  });
+</script>
+{% endblock %}

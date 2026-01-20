@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block title %}Recommendations - HealthPal{%
+endblock %} {% block content %}
+<header>
+  <h1>Recommendations Tailored for You!</h1>
+  <a href="/questionnaire" class="action-button">
+    <i class="fas fa-sync-alt"></i> Retake Questionnaire
+  </a>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
+%} {% for category, message in messages %}
+<div class="alert alert-{{ category }}">{{ message }}</div>
+{% endfor %} {% endif %} {% endwith %}
+
+<div class="recommendations-grid">
+  <div class="card">
+    <h3>Sleep Recommendations</h3>
+    <p>{{ sleep_recommendation | safe }}</p>
+  </div>
+  <div class="card">
+    <h3>Diet Recommendations</h3>
+    <p>{{ diet_recommendation | safe }}</p>
+  </div>
+  <div class="card">
+    <h3>Exercise Recommendations</h3>
+    <p>{{ exercise_recommendation | safe }}</p>
+  </div>
+  <div class="card">
+    <h3>Weight Management</h3>
+    <p>{{ weight_management_recommendation | safe }}</p>
+  </div>
+  <div class="card">
+    <h3>Risk Prediction</h3>
+    <p>{{ risk_prediction_recommendation | safe }}</p>
+  </div>
+</div>
+<div class="recommendation-date">
+  <p>
+    Last updated: {{ recommendation_date if recommendation_date else 'Today' }}
+  </p>
+</div>
+{% endblock %}

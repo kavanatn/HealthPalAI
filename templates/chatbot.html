@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% block title %}HealthPal - AI Chatbot{% endblock %}
+{% block content %}
+<h1>HealthPal AI Chatbot</h1>
+<div id="chatbox">
+  <div class="bot">
+    Hello! I'm your HealthPal AI assistant. How can I help you today?
+  </div>
+</div>
+<div class="input-container">
+  <input type="text" id="user-input" placeholder="Type your message..." />
+  <button onclick="sendMessage()">
+    <i class="fas fa-paper-plane"></i>
+  </button>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  function sendMessage() {
+    let userText = document.getElementById("user-input").value;
+    if (!userText) return;
+
+    // Add user message to chat
+    let userMsg = document.createElement("div");
+    userMsg.className = "user";
+    userMsg.textContent = userText;
+    document.getElementById("chatbox").appendChild(userMsg);
+
+    // Clear input
+    document.getElementById("user-input").value = "";
+
+    // Add typing indicator
+    let typingIndicator = document.createElement("div");
+    typingIndicator.className = "bot";
+    typingIndicator.innerHTML =
+      '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+    document.getElementById("chatbox").appendChild(typingIndicator);
+
+    // Scroll to bottom
+    document.getElementById("chatbox").scrollTop =
+      document.getElementById("chatbox").scrollHeight;
+
+    // Send request to backend
+    fetch("/chatbot/ask", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: userText }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Remove typing indicator
+        document.getElementById("chatbox").removeChild(typingIndicator);
+
+        // Add bot response
+        let botMsg = document.createElement("div");
+        botMsg.className = "bot";
+        botMsg.innerHTML = data.response;
+        document.getElementById("chatbox").appendChild(botMsg);
+
+        // Scroll to bottom
+        document.getElementById("chatbox").scrollTop =
+          document.getElementById("chatbox").scrollHeight;
+      })
+      .catch((error) => {
+        // Remove typing indicator
+        document.getElementById("chatbox").removeChild(typingIndicator);
+
+        // Add error message
+        let errorMsg = document.createElement("div");
+        errorMsg.className = "bot";
+        errorMsg.textContent =
+          "Sorry, I encountered an error. Please try again.";
+        document.getElementById("chatbox").appendChild(errorMsg);
+
+        console.error("Error:", error);
+      });
+  }
+
+  // Send message on Enter key press
+  document
+    .getElementById("user-input")
+    .addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
+    });
+</script>
+{% endblock %}
+
+
+

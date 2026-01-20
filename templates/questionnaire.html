@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Questionnaire - HealthPal</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+
+  <body class="questionnaire-container">
+    <nav class="navbar">
+      <div class="container">
+        <a class="navbar-brand" href="/"> HealthPal </a>
+      </div>
+    </nav>
+
+    <div class="form-container">
+      <h2>Health Questionnaire</h2>
+      <p class="lead">
+        Please fill in the details below to receive personalized health
+        recommendations.
+      </p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form id="health-form" action="/submit" method="post">
+        <!-- Age and Gender Fields -->
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input
+              type="number"
+              class="form-control"
+              id="age"
+              name="age"
+              min="1"
+              max="120"
+              placeholder="Enter your age"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select class="form-control" id="gender" name="gender" required>
+              <option value="" disabled selected>Select your gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Height and Weight Fields -->
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="height">Height (cm)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="height"
+              name="height"
+              placeholder="Enter your height"
+              min="50"
+              max="250"
+              step="0.1"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="weight">Weight (kg)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="weight"
+              name="weight"
+              placeholder="Enter your weight"
+              min="2"
+              max="120"
+              step="0.1"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Heart Rate -->
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="heart-rate">Heart Rate (bpm)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="heart-rate"
+              name="heart-rate"
+              placeholder="Enter your heart rate"
+              min="60"
+              max="120"
+              required
+            />
+          </div>
+
+          <!-- Sleep Hours -->
+          <div class="form-group">
+            <label for="sleep">Average Sleep Hours</label>
+            <input
+              type="number"
+              class="form-control"
+              id="sleep"
+              name="sleep"
+              placeholder="Enter average sleep hours"
+              min="1"
+              max="18"
+              step="0.1"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Physical Activity -->
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="physical-activity">Physical Activity Level</label>
+            <select
+              class="form-control"
+              id="physical-activity"
+              name="physical_activity"
+              required
+            >
+              <option value="" disabled selected>Select an option</option>
+              <option value="sedentary">Sedentary</option>
+              <option value="lightly-active">Lightly Active</option>
+              <option value="moderately-active">Moderately Active</option>
+              <option value="very-active">Very Active</option>
+            </select>
+          </div>
+
+          <!-- Water Intake -->
+          <div class="form-group">
+            <label for="water-intake">Daily Water Intake (liters)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="water-intake"
+              name="water_intake"
+              placeholder="Enter water intake"
+              min="0.5"
+              max="10"
+              step="0.1"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Diet Preferences -->
+        <div class="form-group">
+          <label>Diet Preferences</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input
+                type="radio"
+                id="veg"
+                name="diet"
+                value="Vegetarian"
+                required
+              />
+              Vegetarian
+            </label>
+            <label class="radio-label">
+              <input
+                type="radio"
+                id="nonveg"
+                name="diet"
+                value="Non-Vegetarian"
+              />
+              Non-Vegetarian
+            </label>
+            <label class="radio-label">
+              <input type="radio" id="vegan" name="diet" value="Vegan" />
+              Vegan
+            </label>
+            <label class="radio-label">
+              <input type="radio" id="paleo" name="diet" value="Paleo" />
+              Paleo
+            </label>
+            <label class="radio-label">
+              <input type="radio" id="keto" name="diet" value="Keto" />
+              Keto
+            </label>
+            <label class="radio-label">
+              <input
+                type="radio"
+                id="gluten-free"
+                name="diet"
+                value="Gluten-Free"
+              />
+              Gluten-Free
+            </label>
+          </div>
+        </div>
+
+        <!-- Chronic Conditions -->
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="chronic-conditions"
+              >Do you have any chronic conditions?</label
+            >
+            <select
+              class="form-control"
+              id="chronic-conditions"
+              name="chronic_conditions"
+              required
+            >
+              <option value="" disabled selected>Select an option</option>
+              <option value="none">None</option>
+              <option value="diabetes">Diabetes</option>
+              <option value="hypertension">Hypertension</option>
+              <option value="heart-disease">Heart Disease</option>
+              <option value="asthma">Asthma</option>
+              <option value="arthritis">Arthritis</option>
+            </select>
+          </div>
+
+          <!-- Allergies -->
+          <div class="form-group">
+            <label for="allergies">Do you have any allergies?</label>
+            <select
+              class="form-control"
+              id="allergies"
+              name="allergies"
+              required
+            >
+              <option value="" disabled selected>Select an option</option>
+              <option value="none">None</option>
+              <option value="pollen">Pollen</option>
+              <option value="food">Food</option>
+              <option value="dust">Dust</option>
+              <option value="medication">Medication</option>
+              <option value="pet">Pet</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Smoking -->
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="smoking">Do you smoke?</label>
+            <select class="form-control" id="smoking" name="smoking" required>
+              <option value="" disabled selected>Select an option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <!-- Alcohol -->
+          <div class="form-group">
+            <label for="alcohol">Do you consume alcohol?</label>
+            <select class="form-control" id="alcohol" name="alcohol" required>
+              <option value="" disabled selected>Select an option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <div id="loading-overlay" class="hidden">
+      <div class="spinner"></div>
+      <p>Tailored recommendations on the way...</p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("health-form");
+        if (form) {
+          form.addEventListener("submit", function () {
+            document.getElementById("loading-overlay").style.display = "flex";
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,371 @@
+/* General page styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 20px;
+}
+
+
+
+h1 {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#output-window p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+/* Basic Styling */
+body, html {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Navbar Styling */
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+
+}
+
+.divider {
+  display: inline-block;
+  width: 1.7px;
+  height: 40px; /* Adjust height as needed */
+  background-color: #2f2f2f76; /* Divider color */
+  margin: 0 10px; /* Space between elements */
+  vertical-align: middle;
+}
+
+
+.navbar .tagline {
+  font-size: 16px;
+  color: #555; /* Adjust color as needed */
+  margin-left: 10px; /* Space between logo and tagline */
+  display: inline-block;
+  /* font-style: italic; Optional, to emphasize */
+}
+
+
+
+.navbar:hover {
+  background-color: #e9f7fd;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5em;
+  color: #2b6aa6;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #367ab6;
+}
+
+.navbar-nav .nav-item {
+  margin-right: 15px; /* Add space between items */
+}
+.navbar-nav .nav-item:last-child {
+  margin-right: 0; /* Remove margin from the last item */
+}
+
+
+.nav-link {
+  font-size: 1.1em;
+  color: #555 !important;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #2b6aa6 !important;
+}
+
+/* Hero Section with Fixed Background */
+.jumbotron {
+  position: relative;
+  background-image:url('http://127.0.0.1:5000/static/assets/img/background1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Makes the background fixed */
+  color: #000000;
+  text-align: left;
+  padding: 120px 20px;
+  margin-bottom: 0;
+  animation: fadeIn 2s ease-in-out;
+  overflow: hidden;
+  
+}
+
+/* Overlay for Hero Section */
+
+.jumbotron::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(123, 177, 211, 0.5); /* Adding 0.2 opacity overlay */
+  z-index: 1;
+}
+
+/* Content inside the Hero Section */
+.jumbotron * {
+  position: relative;
+  z-index: 2;
+}
+
+.jumbotron-heading {
+  font-size: 5em;
+  font-family: 'Futura',sans-serif;
+  font-weight: bold;
+  color: #333;
+  margin:0;
+  line-height: 1.2;
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+
+.lead {
+  font-size: 1.5em;
+  animation: fadeInUp 2s ease-out;
+  text-align:center;
+}
+
+.btn-primary, .btn-secondary {
+  margin-top: 20px;
+  padding: 10px 30px;
+  font-size: 1.1em;
+  border-radius: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2b6aa6;
+}
+
+.btn-secondary:hover {
+  background-color: #2b6aa6;
+}
+
+/* Content inside the About Us Section with Full-Width Background */
+#about {
+  background-color: #ffffff;
+  padding: 60px 20px;
+}
+
+#about.full-background {
+  background-color: #2b6aa6; /* About Us full background */
+  color: #fff;
+}
+
+#about * {
+  position: relative;
+  z-index: 2;
+}
+
+#about h2 {
+  font-weight: bold;
+  color: #333;
+  font-size: 2.5em;
+  margin-bottom: 30px;
+}
+
+#about .about-text {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s ease-out forwards;
+  margin-bottom: 20px;
+}
+
+#about .about-text:nth-child(1) {
+  animation-delay: 0.3s;
+}
+
+#about .about-text:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+#about .about-text:nth-child(3) {
+  animation-delay: 0.9s;
+}
+
+/* How It Works Section */
+#how-it-works {
+padding: 60px 20px;
+animation: slideInUp 1s ease-out;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 30px;
+}
+
+#how-it-works h2 {
+font-weight: bold;
+color: #000000;
+font-size: 2.5em;
+margin-bottom: 30px;
+grid-column: span 3; /* Makes the heading span across the grid */
+}
+
+#how-it-works .step {
+background-color: #f8f9fa;
+padding: 30px;
+border-radius: 15px;
+box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+opacity: 0;
+transform: translateY(30px);
+animation: fadeInUp 1s ease-out forwards;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#how-it-works .step:nth-child(1) {
+animation-delay: 0.3s;
+}
+
+#how-it-works .step:nth-child(2) {
+animation-delay: 0.6s;
+}
+
+#how-it-works .step:nth-child(3) {
+animation-delay: 0.9s;
+}
+
+
+#how-it-works .step:hover {
+transform: translateY(-20px);
+box-shadow: 0px 9px 22px rgba(0, 0, 0, 0.4); 
+}
+
+
+.btn {
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-size: 1.1em;
+}
+
+.get-started-container {
+  display: flex;
+  justify-content: center;  
+  align-items: center;      
+  height: 21vh;            
+  margin-top: 0;            
+}
+.btn-primary {
+  background-color: #2b6aa6;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #367ab6;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 30px;
+  background-color: #f1f1f1;
+  font-size: 0.9em;
+  color: #666;
+  animation: fadeIn 2s ease-in-out;
+}
+
+footer a {
+  color: #2b6aa6;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Section Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  margin-bottom: 60px;
+}
+
+/* Animation for Heading (Coming Up Effect) */
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1, h2, h3 {
+  /* color: #000000; */
+  opacity: 0;
+  animation: slideUp 1.5s ease-out forwards;
+}
+
+h1 {
+  animation-delay: 0.5s;
+}
+
+h2 {
+  animation-delay: 0.7s;
+}
+
+h3 {
+  animation-delay: 0.9s;
+}
+
+
+
+
+@media (max-width: 768px) {
+  #how-it-works {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}

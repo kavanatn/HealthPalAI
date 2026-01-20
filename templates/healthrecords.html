@@ -1,0 +1,139 @@
+{% extends "base.html" %} {% block title %}Health Records - HealthPal{% endblock
+%} {% block content %}
+<header>
+  <h1>Your Health Records</h1>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
+%} {% for category, message in messages %}
+<div class="alert alert-{{ category }}">{{ message }}</div>
+{% endfor %} {% endif %} {% endwith %}
+
+<div class="action-container">
+  <a href="/questionnaire" class="action-button">
+    <i class="fas fa-clipboard-list"></i> Take New Health Questionnaire
+  </a>
+</div>
+
+{% if records %} {% for record in records %}
+<div class="record-card">
+  <h3>Health Record #{{ loop.index }}</h3>
+  <div class="record-actions">
+    <button class="delete-button" onclick="openDeleteModal({{ record.id }})">
+      <i class="fas fa-trash"></i> Delete
+    </button>
+  </div>
+  <div class="record-details">
+    <div class="detail-item">
+      <span class="detail-label">Age</span>
+      <span class="detail-value">{{ record.age }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Gender</span>
+      <span class="detail-value">{{ record.gender }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Height</span>
+      <span class="detail-value">{{ record.height }} cm</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Weight</span>
+      <span class="detail-value">{{ record.weight }} kg</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Heart Rate</span>
+      <span class="detail-value">{{ record.heart_rate }} bpm</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Sleep</span>
+      <span class="detail-value">{{ record.sleep }} hours</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Physical Activity</span>
+      <span class="detail-value">{{ record.physical_activity }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Water Intake</span>
+      <span class="detail-value">{{ record.water_intake }} liters</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Diet</span>
+      <span class="detail-value">{{ record.diet }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Chronic Conditions</span>
+      <span class="detail-value">{{ record.chronic_conditions }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Allergies</span>
+      <span class="detail-value">{{ record.allergies }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Smoking</span>
+      <span class="detail-value">{{ record.smoking }}</span>
+    </div>
+    <div class="detail-item">
+      <span class="detail-label">Alcohol</span>
+      <span class="detail-value">{{ record.alcohol }}</span>
+    </div>
+  </div>
+  <div class="record-date">
+    Recorded on: {{ record.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+  </div>
+</div>
+{% endfor %} {% else %}
+<div class="no-records">
+  <i class="fas fa-clipboard"></i>
+  <p>You don't have any health records yet.</p>
+  <a href="/questionnaire" class="action-button">
+    <i class="fas fa-plus"></i> Create Your First Health Record
+  </a>
+</div>
+{% endif %}
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4>Confirm Deletion</h4>
+      <span class="close" onclick="closeDeleteModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>
+        Are you sure you want to delete this health record? This action cannot
+        be undone.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeDeleteModal()">
+        Cancel
+      </button>
+      <form id="deleteForm" method="POST" action="">
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  // Modal functionality
+  const modal = document.getElementById("deleteModal");
+  const deleteForm = document.getElementById("deleteForm");
+
+  function openDeleteModal(recordId) {
+    deleteForm.action = `/delete_record/${recordId}`;
+    modal.style.display = "block";
+  }
+
+  function closeDeleteModal() {
+    modal.style.display = "none";
+  }
+
+  // Close modal when clicking outside of it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      closeDeleteModal();
+    }
+  };
+</script>
+{% endblock %}
