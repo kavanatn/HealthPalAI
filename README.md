@@ -13,11 +13,22 @@
 
 ## 📌 Overview
 
-HealthPal is an intelligent healthcare application designed to track, monitor, and enhance personal health. By leveraging AI-driven recommendations and user data, HealthPal provides personalized insights into various health aspects, including sleep, weight changes, mood tracking, and activity monitoring.
+HealthPal is an intelligent healthcare application designed to track, monitor, and enhance personal health. By leveraging AI-driven recommendations and structured user data, HealthPal provides personalized insights into key health aspects such as **sleep, weight changes, mood tracking, and activity monitoring**.
 
-HealthPal uses **Mistral AI** to generate personalized health advice based on user-input data. The data is collected via a dynamic **Health Questionnaire**, and the generated insights are stored in a database until a new recommendation is requested. Additionally, **HealthPal AI Chatbot** is integrated to offer real-time health guidance and answer health-related queries.
+HealthPal uses **Mistral AI** to generate personalized health advice based on user-input data collected through a dynamic **Health Questionnaire**. Generated insights are securely stored in a database and refreshed whenever new recommendations are requested.
 
-The platform allows users to monitor their health progress through a comprehensive **Dashboard**, update their health records, and receive instant health insights from the AI Chatbot.
+The platform features a comprehensive **Dashboard** for progress tracking and an integrated **AI Chatbot** that offers real-time health guidance and answers health-related queries.
+
+---
+
+## ❓ Why HealthPal?
+
+Personal health data is often scattered across multiple tools and tracked inconsistently. HealthPal centralizes health inputs and applies AI to transform raw data into **meaningful, personalized insights**.
+
+This project focuses on:
+- Practical AI integration beyond basic chatbot use cases
+- Secure handling of sensitive user data
+- Building a scalable, full-stack health application with real-world relevance
 
 ---
 
@@ -40,11 +51,11 @@ The platform allows users to monitor their health progress through a comprehensi
 The **HealthPal AI Chatbot** is designed to provide real-time health insights and answer health-related queries instantly.
 
 **Capabilities of HealthPal AI Chatbot:**
-- 🩺 **Health Guidance**: Offers guidance on health conditions, fitness, and nutrition.
-- 💊 **Medication Advice**: Provides general medication and supplement recommendations.
-- 🍎 **Diet & Nutrition**: Suggests balanced diets and meal plans.
-- 💤 **Sleep Advice**: Offers tips to improve sleep quality.
-- 💻 **24/7 Availability**: Available anytime for user queries.
+- 🩺 General health, fitness, and wellness guidance
+- 💊 Medication and supplement information (general guidance)
+- 🍎 Diet and nutrition suggestions
+- 💤 Sleep improvement tips
+- 💻 24/7 availability for user queries
 
 The chatbot utilizes **Mistral AI** to understand user inputs and generate appropriate health recommendations.
 
@@ -76,14 +87,14 @@ The chatbot utilizes **Mistral AI** to understand user inputs and generate appro
 
 ## 📊 User Flow
 
-1. **User Registration**: Users sign up/sign in securely.
-2. **Health Questionnaire**: Users fill out a dynamic health questionnaire providing relevant health data.
-3. **AI Recommendations**: Collected data is sent to **Mistral AI API** for personalized health recommendations.
-4. **Dashboard Access**: Users access a dashboard displaying their health progress and insights.
-5. **Health Records Management**: Users can update and maintain their health records.
-6. **AI Chatbot Interaction**: Users can chat with the AI Chatbot for real-time health advice and recommendations.
-7. **Recommendation History**: Recommendations are stored in the database until a new one is requested.
-8. **Blogs Section**: Users can explore health-related articles and tips.
+1. User Registration / Login  
+2. Health Questionnaire Submission  
+3. AI Recommendation Generation (Mistral AI API)  
+4. Dashboard Access & Health Metrics Visualization  
+5. Health Records Management  
+6. AI Chatbot Interaction  
+7. Recommendation History Storage  
+8. Blogs & Health Resources Access  
 
 ---
 
@@ -167,10 +178,10 @@ python app.py
 
 ## 💬 How to Use the AI Chatbot
 
-1. Go to the **Chatbot Section** in the navigation bar.
-2. Enter your health-related query in the chat input.
-3. The AI Chatbot will generate a response based on your query.
-4. You can ask about:
+1. Navigate to the Chatbot section.
+2. Enter your health-related query.
+3. Receive AI-generated guidance instantly.
+4. Supported queries include:
    - **Diet Plans**
    - **Workout Routines**
    - **Sleep Patterns**
@@ -178,7 +189,13 @@ python app.py
    - **General Health Queries**
 
 ---
+## ⚠️ Disclaimer
 
+HealthPal is an educational and experimental project.
+AI-generated insights are not a substitute for professional medical advice.
+Users should consult qualified healthcare professionals for medical decisions.
+
+---
 ## 💡 Future Enhancements
 
 - 📊 **Integration with Wearable Devices** for real-time health tracking.
